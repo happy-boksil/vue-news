@@ -8,34 +8,24 @@ import {
 } from "../api/index.js";
 
 export default {
-  FETCH_NEWS(context) {
-    return fetchNewsList()
-      .then((response) => {
-        context.commit("SET_NEWS", response.data);
-        return response;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  async FETCH_NEWS(context) {
+    const response = await fetchNewsList();
+    context.commit("SET_NEWS", response.data);
+    return response;
   },
-  FETCH_JOBS(context) {
-    return fetchJobsList()
-      .then((response) => {
-        context.commit("SET_JOBS", response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  async FETCH_JOBS(context) {
+    try {
+      const response = await fetchJobsList();
+      context.commit("SET_JOBS", response.data);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
   },
-  FETCH_ASKS({ commit }) {
-    return fetchAskList()
-      .then(({ data }) => {
-        console.log(data);
-        commit("SET_ASKS", data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  async FETCH_ASKS(context) {
+    const response = await fetchAskList();
+    context.commit("SET_ASKS", response.data);
+    return response;
   },
   FETCH_USER({ commit }, name) {
     return fetchUserInfo(name)
